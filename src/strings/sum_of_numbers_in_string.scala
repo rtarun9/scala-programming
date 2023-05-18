@@ -1,42 +1,31 @@
 object sum_of_numbers_in_string_obj {
-    def main(args: Array[String]): Unit = {
-        printf("Enter the string :: ");
-        val input_string = scala.io.StdIn.readLine();
+    def main(args: Array[String]) : Unit = {
+        print("Enter input string :: ");
+        var input_string = scala.io.StdIn.readLine();
 
-        var current_number_start_idx = -1;
-        var current_number_end_idx = 0;
-        
+        print("Sum of numbers that are embedded within this string is :: " + sum_of_numbers_in_string(input_string));
+    }
+    
+    def sum_of_numbers_in_string(input_string: String) : Int = {
         var sum = 0;
+        var current_number = 0;
 
-        for (i <- (0 to input_string.length-1)) {
-            println("!!" + input_string(i));
+        for (i <- 0 to input_string.length - 1) {
             if (input_string(i) >= '0' && input_string(i) <= '9') {
-                if (current_number_start_idx == -1) {
-                    current_number_start_idx = i;
-                    current_number_end_idx = i;
-                    printf("--> %d.\n", current_number_end_idx);
-
-                }
-                else {
-                    current_number_end_idx = current_number_end_idx + 1;
-                    printf("-> %d.\n", current_number_end_idx);
-                }
-            } 
+                current_number = 10 * current_number + (input_string(i).toInt - '0'.toInt);
+            }
             else {
-                if (current_number_start_idx != -1) {
-                    printf("<- %d.\n", current_number_end_idx);
-
-                    sum = sum + input_string.slice(current_number_start_idx, current_number_end_idx).toInt;
+                if (current_number != 0) {
+                    sum = sum + current_number;
                 }
-                current_number_start_idx = -1;
-                current_number_end_idx = -1;
+                current_number = 0;
             }
         }
 
-        if (current_number_start_idx != -1 && current_number_end_idx != -1) {
-            sum  = sum + input_string.slice(current_number_start_idx, current_number_end_idx).toInt;
+        if (current_number != 0) {
+            sum = sum + current_number;
         }
 
-        printf("Sum of numbers in string is :: %d.\n", sum);
+        return sum;
     }
 }
